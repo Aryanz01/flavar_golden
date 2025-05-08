@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { X } from "lucide-react";
 
 interface MenuPopupProps {
@@ -22,27 +22,30 @@ interface MenuPopupProps {
 }
 
 export function MenuPopup({ isOpen, onClose, buttonPosition, dishes }: MenuPopupProps) {
-  const [popupPosition, setPopupPosition] = useState({ top: 0, right: 0 });
+  const [popupPosition, setPopupPosition] = useState({ left: 0, bottom: 0 });
+  const popupRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     if (isOpen) {
-      // Calculate position to ensure it stays on screen
       const windowHeight = window.innerHeight;
       const windowWidth = window.innerWidth;
+      let popupWidth = 240; // smaller width
+      let popupHeight = 400; // fallback
+      if (popupRef.current) {
+        popupWidth = popupRef.current.offsetWidth;
+        popupHeight = popupRef.current.offsetHeight;
+      }
       
-      // Position popup above the button if there's enough space, otherwise below
-      const popupHeight = Math.min(windowHeight * 0.6, 400); // Max height of 400px or 60% of window
+      // Position the menu below the button, aligned to the right
+      let left = buttonPosition.x - popupWidth; // Align right edge with button
+      let bottom = windowHeight - buttonPosition.y - 20; // Larger negative offset to position menu below button
       
-      let top = buttonPosition.y - popupHeight / 2; // Center vertically to button
+      // Keep popup within horizontal bounds
+      left = Math.max(10, Math.min(windowWidth - popupWidth - 40, left));
       // Keep popup within vertical bounds
-      top = Math.max(20, Math.min(windowHeight - popupHeight - 20, top));
+      bottom = Math.max(10, Math.min(windowHeight - popupHeight - 1, bottom));
       
-      // Position popup to the left of the button
-      let right = windowWidth - buttonPosition.x + 20;
-      // Ensure it doesn't go off-screen horizontally
-      right = Math.max(20, Math.min(windowWidth - 300, right));
-      
-      setPopupPosition({ top, right });
+      setPopupPosition({ left, bottom });
     }
   }, [isOpen, buttonPosition]);
 
@@ -51,17 +54,17 @@ export function MenuPopup({ isOpen, onClose, buttonPosition, dishes }: MenuPopup
   return (
     <div className="fixed inset-0 z-40 bg-black/0" onClick={onClose}>
       <div 
-        className="absolute bg-black rounded-[10px] shadow-xl w-max max-w-[90vw] max-h-[80vh] overflow-auto gold-gradient-border"
+        ref={popupRef}
+        className="absolute bg-black rounded-[10px] shadow-xl w-[240px] max-h-[80vh] overflow-auto gold-gradient-border-menu-popup"
         style={{
-          top: popupPosition.top,
-          right: popupPosition.right,
-          transform: 'translate(0, -50%)',
+          left: popupPosition.left,
+          bottom: popupPosition.bottom,
           borderWidth: '1px',
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center justify-between p-4 border-b gold-gradient-border" style={{borderWidth: '0 0 1px 0'}}>
-          <h3 className="text-xl font-semibold gold-gradient-text">Menu</h3>
+        <div className="flex items-center justify-between p-4 border-b gold-gradient-border-popup" style={{borderWidth: '0 0 1px 0'}}>
+          <h3 className="text-xl font-bold font-playfair gold-gradient-text">Menu</h3>
           <button 
             onClick={onClose}
             className="p-1 rounded-[10px] hover:bg-[#0a0a0a]"
@@ -71,15 +74,14 @@ export function MenuPopup({ isOpen, onClose, buttonPosition, dishes }: MenuPopup
           </button>
         </div>
         
-        <div className="divide-y gold-gradient-border" style={{borderWidth: '0'}}>
+        <div className="divide-y gold-gradient-border-popup" style={{borderWidth: '0'}}>
           {dishes.map((category) => (
-            <div key={category.category} className="p-4">
-              <h4 className="gold-gradient-text font-semibold mb-2">{category.category}</h4>
-              <ul className="space-y-2">
+            <div key={category.category} className="p-3">
+              <h4 className="gold-gradient-text font-semibold text-base mb-2">{category.category}</h4>
+              <ul className="space-y-1 text-sm">
                 {category.items.map((item) => (
-                  <li key={item._id} className="flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-[5px] gold-gradient-bg"></div>
-                    <span className="text-white">{item.name}</span>
+                  <li key={item._id} className="hover:bg-[#0a0a0a] px-2 py-1 rounded-md transition-colors duration-200 text-white">
+                    {item.name}
                   </li>
                 ))}
               </ul>

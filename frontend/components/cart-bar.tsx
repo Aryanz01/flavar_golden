@@ -1,6 +1,18 @@
 "use client";
-import React from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import { ShoppingBag } from "lucide-react";
+
+// Create a context to track cart visibility
+export const CartVisibilityContext = createContext<{
+  isCartVisible: boolean;
+  setIsCartVisible: React.Dispatch<React.SetStateAction<boolean>>;
+}>({
+  isCartVisible: false,
+  setIsCartVisible: () => {},
+});
+
+// Hook to use the cart visibility
+export const useCartVisibility = () => useContext(CartVisibilityContext);
 
 interface CartBarProps {
   itemCount: number;
@@ -8,10 +20,27 @@ interface CartBarProps {
 }
 
 export function CartBar({ itemCount, onViewCart }: CartBarProps) {
+  const { setIsCartVisible } = useCartVisibility();
+
+  // Update cart visibility when the component mounts/unmounts
+  useEffect(() => {
+    setIsCartVisible(true);
+    return () => setIsCartVisible(false);
+  }, [setIsCartVisible]);
+  
+  // Display for debugging
+  console.log("Cart item count:", itemCount);
+
+  const handleViewCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onViewCart();
+  };
+
   return (
-    <div className="fixed bottom-0 inset-x-0 z-30 px-4 py-3 bg-gradient-to-t from-[#121212] to-[#121212]/95">
+    <div className="fixed bottom-0 inset-x-0 z-40 px-4 py-3 bg-gradient-to-t from-[#121212] to-[#121212]/95">
       <button
-        onClick={onViewCart}
+        onClick={handleViewCart}
         className="w-full flex items-center justify-between bg-[#000000] py-3 px-5 rounded-[10px] shadow-[0_4px_20px_rgba(0,0,0,0.3)] font-semibold transition-all duration-200 hover:shadow-[0_4px_25px_rgba(160,148,96,0.2)] hover:scale-[1.01] gold-gradient-border"
         style={{borderWidth: '1px'}}
       >
@@ -30,5 +59,16 @@ export function CartBar({ itemCount, onViewCart }: CartBarProps) {
         </div>
       </button>
     </div>
+  );
+}
+
+// Provider component to wrap the app with
+export function CartVisibilityProvider({ children }: { children: React.ReactNode }) {
+  const [isCartVisible, setIsCartVisible] = React.useState(false);
+  
+  return (
+    <CartVisibilityContext.Provider value={{ isCartVisible, setIsCartVisible }}>
+      {children}
+    </CartVisibilityContext.Provider>
   );
 }

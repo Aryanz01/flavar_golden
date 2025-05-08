@@ -9,6 +9,7 @@ import { MenuPopup } from "@/components/menu-popup"
 import { CartBar } from "@/components/cart-bar"
 import { CartScreen } from "@/components/cart-screen"
 import React from "react"
+import { MenuButton } from "@/components/menu-button"
 
 interface FoodItem {
   _id: string
@@ -26,50 +27,42 @@ interface FoodItem {
   availability: boolean
 }
 
-interface CartItem extends Omit<FoodItem, '_id'> {
-  id: string
+interface CartItem {
+  id: string;
+  name: string;
+  price: number;
+  serves: number;
+  isVeg: boolean;
+  image: string;
 }
 
 // Add mock dishes for restaurant 3
 const mockDishes = {
   "3": [
     {
-      _id: "dish7",
-      name: "Butter Chicken",
-      price: 14.99,
-      serves: 2,
-      isVeg: false,
-      description: "Tender chicken pieces in a rich, creamy tomato sauce",
-      image: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db",
-      glb_url: "https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-40-11_Paneer_Paratha.glb",
-      usdz_url: "https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz",
-      category1: "Curry",
-      availability: true
-    },
-    {
-      _id: "dish8",
-      name: "Vegetable Biryani",
-      price: 12.99,
-      serves: 2,
+      _id: "dish14",
+      name: "Tandoori Chaap",
+      price: 11.99,
+      serves: 1,
       isVeg: true,
-      description: "Fragrant rice cooked with mixed vegetables and aromatic spices",
-      image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8",
-      glb_url: "",
-      usdz_url: "",
-      category1: "Rice",
+      description: "Soya chunks marinated in spices and grilled in a tandoor for smoky flavor",
+      image: "/images/tandoori-chaap.png",
+      glb_url: "https://d29pu3it4iogfy.cloudfront.net/models/681062b5f708e210f3d0110e/tandoori_chaap.glb",
+      usdz_url: "https://d29pu3it4iogfy.cloudfront.net/models/681062b5f708e210f3d0110e/tandoori_chaap.usdz",
+      category1: "Curry",
       availability: true
     },
     {
-      _id: "dish9",
-      name: "Chicken Tikka Masala",
+      _id: "dish20",
+      name: "Chicken Bao Tacos",
       price: 15.99,
-      serves: 2,
+      serves: 1,
       isVeg: false,
-      description: "Grilled chicken chunks in a spiced curry sauce",
-      image: "https://images.unsplash.com/photo-1565557623262-b51c2513a641",
-      glb_url: "",
-      usdz_url: "",
-      category1: "Curry",
+      description: "Fusion bao tacos filled with crispy chicken, fresh vegetables, and Asian-inspired sauce",
+      image: "/images/chicken bao.png",
+      glb_url: "https://d29pu3it4iogfy.cloudfront.net/models/681062b5f708e210f3d0110e/11-03-2024-06-53-32_Chrispy_Chicken_Bao.glb",
+      usdz_url: "https://d29pu3it4iogfy.cloudfront.net/models/681062b5f708e210f3d0110e/11-03-2024-06-53-32_Chrispy_Chicken_Bao.usdz",
+      category1: "Appetizer",
       availability: true
     },
     {
@@ -79,168 +72,139 @@ const mockDishes = {
       serves: 1,
       isVeg: true,
       description: "Cubes of cottage cheese marinated and grilled to perfection",
-      image: "https://images.unsplash.com/photo-1567188040759-fb8a883dc6d8",
-      glb_url: "",
-      usdz_url: "",
+      image: "/images/paneer-tikka.png",
+      glb_url: "https://d29pu3it4iogfy.cloudfront.net/models/681062b5f708e210f3d0110e/15-04-2024-04-33-38_Paneer_65.glb",
+      usdz_url: "https://d29pu3it4iogfy.cloudfront.net/models/681062b5f708e210f3d0110e/15-04-2024-04-33-38_Paneer_65.usdz",
       category1: "Appetizer",
       availability: true
     },
     {
-      _id: "dish11",
-      name: "Lamb Rogan Josh",
-      price: 16.99,
+      _id: "dish8",
+      name: "Pizza",
+      price: 12.99,
       serves: 2,
       isVeg: false,
-      description: "Aromatic curry with tender pieces of lamb cooked in Kashmiri spices",
-      image: "https://images.unsplash.com/photo-1545247181-516773cae754",
-      glb_url: "",
-      usdz_url: "",
-      category1: "Curry",
+      description: "Spicy Indo-Chinese style mushrooms in a delicious manchurian sauce",
+      image: "/images/pizza.png",
+      glb_url: "https://d29pu3it4iogfy.cloudfront.net/models/681062b5f708e210f3d0110e/pizza (1).glb",
+      usdz_url: "https://d29pu3it4iogfy.cloudfront.net/models/681062b5f708e210f3d0110e/pizza (1).usdz",
+      category1: "Indo-Chinese",
       availability: true
     },
+    
+    {
+      _id: "dish15",
+      name: "Veg Seekh Kabab",
+      price: 3.99,
+      serves: 1,
+      isVeg: true,
+      description: "Minced vegetable skewers grilled to perfection with aromatic spices",
+      image: "/images/veg-seekh-kabab.png",
+      glb_url: "https://d29pu3it4iogfy.cloudfront.net/models/681062b5f708e210f3d0110e/veg_sikh_kabab.glb",
+      usdz_url: "https://d29pu3it4iogfy.cloudfront.net/models/681062b5f708e210f3d0110e/veg_sikh_kabab.usdz",
+      category1: "Appetizer",
+      availability: true
+    },
+    
+    {
+      _id: "dish8",
+      name: "Mushroom Chilli",
+      price: 12.99,
+      serves: 2,
+      isVeg: true,
+      description: "Spicy Indo-Chinese style mushrooms in a delicious manchurian sauce",
+      image: "/images/mushroom-manchurian.webp",
+      glb_url: "https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-29-13_Mushroom_Chilli.glb",
+      usdz_url: "https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-29-13_Mushroom_Chilli.usdz",
+      category1: "Indo-Chinese",
+      availability: true
+    },
+   
+    
     {
       _id: "dish12",
-      name: "Vegetable Samosas",
+      name: "Filling Cheese Dumpling",
       price: 6.99,
       serves: 2,
       isVeg: true,
       description: "Crispy pastry filled with spiced potatoes and peas",
-      image: "https://images.unsplash.com/photo-1601050690597-df0568f70950",
-      glb_url: "",
-      usdz_url: "",
+      image: "/images/filling-cheese-dumpling.png",
+      glb_url: "https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-10-53-07_Filling_cheese_momo.glb",
+      usdz_url: "https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-10-53-07_Filling_cheese_momo.usdz",
       category1: "Appetizer",
-      availability: true
-    },
-    {
-      _id: "dish13",
-      name: "Chicken Biryani",
-      price: 14.99,
-      serves: 1,
-      isVeg: false,
-      description: "Fragrant basmati rice cooked with chicken and aromatic spices",
-      image: "https://images.unsplash.com/photo-1589302168068-964664d93dc0",
-      glb_url: "",
-      usdz_url: "",
-      category1: "Rice",
-      availability: true
-    },
-    {
-      _id: "dish14",
-      name: "Palak Paneer",
-      price: 11.99,
-      serves: 1,
-      isVeg: true,
-      description: "Cottage cheese cubes in a creamy spinach sauce",
-      image: "https://images.unsplash.com/photo-1613292443284-8d11715fc04a",
-      glb_url: "",
-      usdz_url: "",
-      category1: "Curry",
-      availability: true
-    },
-    {
-      _id: "dish15",
-      name: "Garlic Naan",
-      price: 3.99,
-      serves: 1,
-      isVeg: true,
-      description: "Soft bread with a garlic butter topping baked in tandoor",
-      image: "https://images.unsplash.com/photo-1600628421066-f6bda6a7b976",
-      glb_url: "",
-      usdz_url: "",
-      category1: "Bread",
       availability: true
     },
     {
       _id: "dish16",
-      name: "Tandoori Chicken",
+      name: "Chicken Biryani",
       price: 13.99,
       serves: 2,
       isVeg: false,
-      description: "Chicken marinated in yogurt and spices, cooked in a clay oven",
-      image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0",
-      glb_url: "",
-      usdz_url: "",
+      description: "Fragrant basmati rice cooked with chicken and aromatic spices",
+      image: "/images/veg-biryani.png",
+      glb_url: "https://d29pu3it4iogfy.cloudfront.net/models/681062b5f708e210f3d0110e/vegbiryani.glb",
+      usdz_url: "https://d29pu3it4iogfy.cloudfront.net/models/681062b5f708e210f3d0110e/vegbiryani.usdz",
       category1: "Appetizer",
       availability: true
     },
+    // {
+    //   _id: "dish7",
+    //   name: "Butter Chicken",
+    //   price: 14.99,
+    //   serves: 2,
+    //   isVeg: false,
+    //   description: "Tender chicken pieces in a rich, creamy tomato sauce",
+    //   image: "https://images.unsplash.com/photo-1588166524941-3bf61a9c41db",
+    //   glb_url: "https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-40-11_Paneer_Paratha.glb",
+    //   usdz_url: "https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-40-11_Paneer_Paratha.usdz",
+    //   category1: "Curry",
+    //   availability: true
+    // },
+    
+    // {
+    //   _id: "dish23",
+    //   name: "Hot Garlic Momos",
+    //   price: 8.99,
+    //   serves: 2,
+    //   isVeg: true,
+    //   description: "Steamed dumplings tossed in a spicy garlic sauce",
+    //   image: "/images/placeholder.jpg",
+    //   glb_url: "/models/hot_garlic_momos.glb",
+    //   usdz_url: "/models/hot_garlic_momos.usdz",
+    //   category1: "Indo-Chinese",
+    //   availability: true
+    // },
+    
+    
     {
-      _id: "dish17",
-      name: "Chana Masala",
-      price: 9.99,
-      serves: 1,
-      isVeg: true,
-      description: "Chickpeas cooked in a spicy tomato gravy",
-      image: "https://images.unsplash.com/photo-1604320359736-25247cd7d84d",
-      glb_url: "",
-      usdz_url: "",
-      category1: "Curry",
-      availability: true
-    },
-    {
-      _id: "dish18",
-      name: "Mango Lassi",
-      price: 4.99,
-      serves: 1,
-      isVeg: true,
-      description: "Refreshing yogurt drink with sweet mango pulp",
-      image: "https://images.unsplash.com/photo-1624454002302-4db0782d589a",
-      glb_url: "",
-      usdz_url: "",
-      category1: "Beverage",
-      availability: true
-    },
-    {
-      _id: "dish19",
-      name: "Gulab Jamun",
-      price: 5.99,
+      _id: "dish9",
+      name: "Paneer Malai Tikka",
+      price: 15.99,
       serves: 2,
       isVeg: true,
-      description: "Sweet milk solids balls soaked in rose-flavored sugar syrup",
-      image: "https://images.unsplash.com/photo-1601303041231-2d3bd997fbac",
-      glb_url: "",
-      usdz_url: "",
-      category1: "Dessert",
-      availability: true
-    },
-    {
-      _id: "dish20",
-      name: "Fish Curry",
-      price: 15.99,
-      serves: 1,
-      isVeg: false,
-      description: "Tender fish pieces cooked in a tangy coconut-based curry",
-      image: "https://images.unsplash.com/photo-1626407937533-d3df47530d10",
-      glb_url: "",
-      usdz_url: "",
+      description: "Cubes of cottage cheese in a creamy marinade",
+      image: "/images/paneer-malai-tikka.png",
+      glb_url: "https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/glb/15-04-2024-04-38-00_Paneer_Malai_Tikka.glb",
+      usdz_url: "https://snc-apac-1.sgp1.cdn.digitaloceanspaces.com/5f5ed230-8264-48f1-9190-c1a9b112280a/assets/3d/usdz/15-04-2024-04-38-00_Paneer_Malai_Tikka.usdz",
       category1: "Curry",
       availability: true
     },
-    {
-      _id: "dish21",
-      name: "Masala Dosa",
-      price: 8.99,
-      serves: 1,
-      isVeg: true,
-      description: "Crispy rice crepe filled with spiced potato filling",
-      image: "https://images.unsplash.com/photo-1589301760014-d929f3979dbc",
-      glb_url: "",
-      usdz_url: "",
-      category1: "Breakfast",
-      availability: true
-    },
-    {
-      _id: "dish22",
-      name: "Chicken Korma",
-      price: 14.99,
-      serves: 1,
-      isVeg: false,
-      description: "Chicken pieces in a mild, creamy cashew and yogurt sauce",
-      image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1",
-      glb_url: "",
-      usdz_url: "",
-      category1: "Curry",
-      availability: true
-    }
+   
+    // {
+    //   _id: "dish11",
+    //   name: "Lamb Rogan Josh",
+    //   price: 16.99,
+    //   serves: 2,
+    //   isVeg: false,
+    //   description: "Aromatic curry with tender pieces of lamb cooked in Kashmiri spices",
+    //   image: "https://images.unsplash.com/photo-1545247181-516773cae754",
+    //   glb_url: "",
+    //   usdz_url: "",
+    //   category1: "Curry",
+    //   availability: true
+    // },
+    
+   
   ]
 };
 
@@ -335,8 +299,12 @@ export default function MenuPage({ params }: { params: { rest_id: string } }) {
   const cartItems: CartItem[] = foodItems
     .filter((item) => cart[item._id])
     .map((item) => ({
-      ...item,
-      id: item._id
+      id: item._id,
+      name: item.name,
+      price: typeof item.price === 'number' ? item.price : parseFloat(String(item.price)),
+      serves: item.serves,
+      isVeg: item.isVeg,
+      image: item.image || '/placeholder.svg'
     }))
 
   if (loading) return <div className="text-center py-10">Loading menu...</div>
@@ -406,9 +374,9 @@ export default function MenuPage({ params }: { params: { rest_id: string } }) {
         ))}
       </div>
 
-      {/* Fixed Menu Button */}
-      <button
-        className="fixed w-[65px] h-[65px] bottom-6 right-6 gold-gradient-bg rounded-full flex flex-col items-center justify-center gap-1 shadow-lg z-40"
+      {/* Menu Button with automatic positioning */}
+      <MenuButton 
+        isOpen={isMenuOpen}
         onClick={(e) => {
           const button = e.currentTarget.getBoundingClientRect();
           setMenuButtonPosition({
@@ -417,14 +385,7 @@ export default function MenuPage({ params }: { params: { rest_id: string } }) {
           });
           setIsMenuOpen(true);
         }}
-      >
-        <svg width="24" height="27" viewBox="0 0 24 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 20.25V11.25C20 9.12825 20 8.06737 19.414 7.40925C18.828 6.75 17.886 6.75 16 6.75H4V20.25C4 22.3706 4 23.4315 4.586 24.0907C5.172 24.75 6.114 24.75 8 24.75H16C17.886 24.75 18.828 24.75 19.414 24.0907C20 23.4315 20 22.3706 20 20.25Z" stroke="black" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M12 12.6874C12.7956 12.6874 13.5587 13.0627 14.1213 13.7309C14.6839 14.399 15 15.3051 15 16.2499M12 12.6874C11.2044 12.6874 10.4413 13.0627 9.87868 13.7309C9.31607 14.399 9 15.3051 9 16.2499M12 12.6874V11.4999M15 16.2499H16M15 16.2499H12H9M9 16.2499H8M8 21H16M4 6.74985L11.385 3.07568C13.034 2.25511 13.858 1.84423 14.515 2.05442C14.941 2.19036 15.3172 2.4897 15.585 2.90587C16 3.5495 16 4.61589 16 6.74985" stroke="black" strokeLinecap="round" strokeLinejoin="round"/>
-          <rect width="10" height="13" transform="translate(7 10)" fill="#A09460"/>
-        </svg>
-        <span className="text-black text-xs font-medium">MENU</span>
-      </button>
+      />
 
       {selectedDish && (
         <ARScreen 

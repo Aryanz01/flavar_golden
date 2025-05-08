@@ -1,0 +1,29 @@
+{
+  "name": "flavargoldentheme",
+  "version": "1.0.0",
+  "description": "This project is a luxury restaurant web application with a Royal Gold theme, featuring a modern, elegant UI and a customizable gold gradient. All UI elements have consistent rounded corners and a premium look.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Manik783/flavargoldentheme.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Manik783/flavargoldentheme/issues"
+  },
+  "scripts": {
+  "dev": "next dev -H 0.0.0.0"
+},
+
+  "homepage": "https://github.com/Manik783/flavargoldentheme#readme",
+  "dependencies": {
+    "next": "^15.3.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  }
+}

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
+import { CartVisibilityProvider } from '@/components/cart-bar'
 
 export const metadata: Metadata = {
   title: 'v0 App',
@@ -13,7 +14,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <CartVisibilityProvider>
+          {children}
+        </CartVisibilityProvider>
+      </body>
     </html>
   )
 }

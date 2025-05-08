@@ -12,16 +12,15 @@ export function FilterChips({ activeFilter, onFilterChange }: FilterChipsProps) 
     { id: "non-veg", label: "Non-Veg" },
     { id: "recommended", label: "Recommended" },
     { id: "indian", label: "Indian Cuisine" },
-  ];
-
+  ]; 
   return (
-    <div className="flex gap-3 p-5 overflow-x-auto bg-[#121212] no-scrollbar border-b gold-gradient-border" style={{borderWidth: '0 0 1px 0'}}>
+    <div className="flex gap-3 p-5 overflow-x-auto bg-[#121212] shadow-md no-scrollbar gold-gradient-border-bottom">
       <button
         onClick={() => onFilterChange("all")}
-        className={`px-4 py-2 rounded-[10px] whitespace-nowrap text-sm font-medium transition-all duration-200
+        className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all duration-200
           ${activeFilter === "all" 
             ? "gold-gradient-bg text-[#121212] shadow-[0_0_15px_rgba(160,148,96,0.3)]" 
-            : "bg-[#000000] border gold-gradient-border hover:shadow-[0_0_10px_rgba(160,148,96,0.2)]"}`}
+            : "bg-[#000000] border gold-gradient-border-filter hover:shadow-[0_0_10px_rgba(160,148,96,0.2)]"}`}
         style={activeFilter !== "all" ? {borderWidth: '1px'} : {}}
       >
         {activeFilter !== "all" && (
@@ -34,10 +33,10 @@ export function FilterChips({ activeFilter, onFilterChange }: FilterChipsProps) 
         <button
           key={filter.id}
           onClick={() => onFilterChange(filter.id)}
-          className={`px-4 py-2 rounded-[10px] whitespace-nowrap text-sm font-medium transition-all duration-200
+          className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all duration-200
             ${activeFilter === filter.id 
               ? "gold-gradient-bg text-[#121212] shadow-[0_0_15px_rgba(160,148,96,0.3)]" 
-              : "bg-[#000000] border gold-gradient-border hover:shadow-[0_0_10px_rgba(160,148,96,0.2)]"}`}
+              : "bg-[#000000] border gold-gradient-border-filter hover:shadow-[0_0_10px_rgba(160,148,96,0.2)]"}`}
           style={activeFilter !== filter.id ? {borderWidth: '1px'} : {}}
         >
           {activeFilter !== filter.id && (

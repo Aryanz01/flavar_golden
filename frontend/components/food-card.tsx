@@ -161,7 +161,7 @@ export function FoodCard({
     }
     
     .premium-card h3 {
-      font-size: 1rem;
+      font-size: 1.05rem;
     }
     
     .premium-card .relative {
@@ -189,7 +189,7 @@ export function FoodCard({
     }
     
     .premium-card h3 {
-      font-size: 0.875rem;
+      font-size: 1.05rem;
     }
     
     .premium-card .relative {
@@ -251,6 +251,9 @@ export function FoodCard({
       width: 110px;
       height: 82px;
     }
+    .premium-card h3 {
+      font-size: 0.85rem;
+    }
   }
   
   @media (max-width: 1440px) and (min-height: 2960px) {
@@ -267,7 +270,7 @@ export function FoodCard({
       padding: 40px;
     }
     .premium-card h3 {
-      font-size: 2.2rem;
+      font-size: 1.8rem;
     }
     .premium-card .relative {
       width: 260px;
@@ -302,7 +305,7 @@ export function FoodCard({
       max-height: calc((100vh - 170px) / 3);
     }
     .premium-card h3 {
-      font-size: 1.45rem;
+      font-size: 1.1rem;
     }
     .premium-card p.font-medium {
       font-size: 1.25rem;
@@ -344,7 +347,7 @@ export function FoodCard({
       padding: 26px;
     }
     .premium-card h3 {
-      font-size: 1.6rem;
+      font-size: 1.3rem;
     }
     .premium-card p.font-medium {
       font-size: 1.3rem;
@@ -376,5 +379,14 @@ export function FoodCard({
       font-size: 1.25em;
       padding: 0.9rem 1.4rem;
     }
+  }
+
+  .premium-card h3 {
+    font-size: clamp(0.85rem, 2.5vw, 1.2rem);
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    max-width: 100%;
+    display: block;
   }
 `}</style>

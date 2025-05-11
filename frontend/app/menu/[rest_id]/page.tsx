@@ -123,7 +123,7 @@ const mockDishes = {
     
     {
       _id: "dish12",
-      name: "Filling Cheese Dumpling",
+      name: "Cheese Dumpling",
       price: 6.99,
       serves: 2,
       isVeg: true,

@@ -74,6 +74,19 @@ export function ARScreen({ isOpen, onClose, dish }: ARScreenProps) {
   const [isARSupported, setIsARSupported] = useState(false);
   const modelViewerRef = useRef<ModelViewerElement | null>(null);
 
+  // Handle body class for modal
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add('modal-open');
+    } else {
+      document.body.classList.remove('modal-open');
+    }
+
+    return () => {
+      document.body.classList.remove('modal-open');
+    };
+  }, [isOpen]);
+
   // Check for AR support when component mounts
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -157,8 +170,15 @@ export function ARScreen({ isOpen, onClose, dish }: ARScreenProps) {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40" onClick={onClose} />
-      <div className="fixed inset-x-0 bottom-0 bg-[#000000] border-t border-[#A09460] rounded-t-3xl z-50 overflow-hidden max-h-[90vh] shadow-[0_-10px_30px_rgba(0,0,0,0.5)]">
+      <div 
+        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 pointer-events-auto" 
+        onClick={onClose}
+        style={{ touchAction: 'none' }}
+      />
+      <div 
+        className="fixed inset-x-0 bottom-0 bg-[#000000] border-t border-[#A09460] rounded-t-3xl z-50 overflow-hidden max-h-[90vh] shadow-[0_-10px_30px_rgba(0,0,0,0.5)] pointer-events-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         <button 
           onClick={onClose}
           className="absolute top-3 right-3 z-10 bg-[#000000] rounded-full p-1.5 hover:bg-[#0a0a0a] border border-[#A09460]/30 transition-all duration-200 shadow-md"
@@ -231,6 +251,14 @@ export function ARScreen({ isOpen, onClose, dish }: ARScreenProps) {
         model-viewer::part(default-ar-button),
         model-viewer .container .ar-button {
           display: none !important;
+        }
+
+        /* Prevent interactions with elements behind the modal */
+        body.modal-open {
+          overflow: hidden;
+          position: fixed;
+          width: 100%;
+          height: 100%;
         }
       `}</style>
     </>

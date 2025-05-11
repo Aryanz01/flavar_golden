@@ -36,7 +36,7 @@ export function Header({ onSearch }: HeaderProps) {
   }, []);
 
   return (
-    <div className="px-5 pt-3 pb-5 space-y-5 bg-[#121212] border-b border-[#A09460]/20 shadow-md">
+    <div className="px-5 pt-3 pb-5 space-y-5 bg-[#0a0a0a] border-b border-[#A09460]/20 shadow-md">
       {/* Location Section */}
       <div className="flex items-center gap-3">
         {/* Clickable Icon */}

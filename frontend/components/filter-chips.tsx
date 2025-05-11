@@ -14,7 +14,7 @@ export function FilterChips({ activeFilter, onFilterChange }: FilterChipsProps) 
     { id: "indian", label: "Indian Cuisine" },
   ]; 
   return (
-    <div className="flex gap-3 p-5 overflow-x-auto bg-[#121212] shadow-md no-scrollbar gold-gradient-border-bottom">
+    <div className="filter-chips-bar flex gap-3 p-5 overflow-x-auto bg-[#0a0a0a] shadow-md gold-gradient-border-bottom">
       <button
         onClick={() => onFilterChange("all")}
         className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-all duration-200
@@ -45,6 +45,29 @@ export function FilterChips({ activeFilter, onFilterChange }: FilterChipsProps) 
           {activeFilter === filter.id && filter.label}
         </button>
       ))}
+      <style jsx>{`
+        @media (max-width: 1440px) {
+          .filter-chips-bar {
+            padding: 8px 2px;
+            gap: 6px;
+          }
+          .filter-chips-bar button {
+            font-size: 0.8rem;
+            padding: 0.4rem 0.9rem;
+          }
+        }
+        @media (max-width: 600px) {
+          .filter-chips-bar {
+            padding: 16px 4px;
+            gap: 12px;
+          }
+          .filter-chips-bar button {
+            font-size: 1.15rem;
+            padding: 0.9rem 1.5rem;
+            border-radius: 2rem;
+          }
+        }
+      `}</style>
     </div>
   );
 }

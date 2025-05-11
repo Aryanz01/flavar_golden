@@ -235,7 +235,7 @@ h1, h2, h3, h4, h5, h6 {
 .gold-gradient-border-bottom {
   position: relative;
   z-index: 0;
-  background: #121212;
+  background: #0a0a0a;
   border-bottom: none;
 }
 
@@ -321,7 +321,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Premium Card Styling */
 .premium-card {
-  @apply bg-[#000000] rounded-[10px] shadow-[0_4px_20px_rgba(0,0,0,0.3)] overflow-hidden border transition-transform duration-200 hover:shadow-[0_8px_25px_rgba(0,0,0,0.4)];
+  @apply bg-[#000000] rounded-[10px] shadow-[0_4px_20px_rgba(0,0,0,0.3)] overflow-hidden border transition-transform duration-200 hover:shadow-[0_8px_25px_rgba(0,0,0,0.4)] px-2 py-2;
   border-image: var(--gold-gradient);
   border-image-slice: 1;
   border-width: 1px;

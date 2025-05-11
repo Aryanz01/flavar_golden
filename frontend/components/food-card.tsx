@@ -107,7 +107,7 @@ export function FoodCard({
           </div>
         </div>
 
-        <div className="relative w-[174px] h-[131px] flex-shrink-0">
+        <div className="relative w-[174px] h-[146px] flex-shrink-0">
           <img
             src={image || "/placeholder.svg"}
             alt={name}
@@ -239,6 +239,142 @@ export function FoodCard({
       padding-right: 0.5rem;
       padding-top: 0.125rem;
       padding-bottom: 0.125rem;
+    }
+  }
+  
+  @media (max-width: 1440px) {
+    .premium-card {
+      min-height: calc((100vh - 220px) / 3); /* 220px is an estimate for header, filter chips, and padding */
+      max-height: calc((100vh - 220px) / 3);
+    }
+    .premium-card .relative {
+      width: 110px;
+      height: 82px;
+    }
+  }
+  
+  @media (max-width: 1440px) and (min-height: 2960px) {
+    .premium-card {
+      min-height: calc((100vh - 160px) / 3); /* 160px is an estimate for header, filter chips, and padding */
+      max-height: calc((100vh - 160px) / 3);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .premium-card {
+      min-height: calc((100vh - 220px) / 3);
+      max-height: calc((100vh - 220px) / 3);
+      padding: 40px;
+    }
+    .premium-card h3 {
+      font-size: 2.2rem;
+    }
+    .premium-card .relative {
+      width: 260px;
+      height: 200px;
+    }
+    .premium-card .flex.items-center.px-3 {
+      font-size: 1.3rem;
+      padding: 1.2rem 2.2rem;
+    }
+    .premium-card button.flex.items-center.justify-center {
+      font-size: 1.2rem;
+      padding: 1.1rem 2.2rem;
+    }
+    .premium-card button.flex.items-center.justify-center svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+    .ar-view-button {
+      min-width: 120px;
+      max-width: 160px;
+      min-height: 40px;
+      max-height: 60px;
+      font-size: 1.2em;
+      padding: 0.8rem 1.5rem;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .premium-card {
+      padding: 22px;
+      min-height: calc((100vh - 170px) / 3);
+      max-height: calc((100vh - 170px) / 3);
+    }
+    .premium-card h3 {
+      font-size: 1.45rem;
+    }
+    .premium-card p.font-medium {
+      font-size: 1.25rem;
+    }
+    .premium-card p.text-xs {
+      font-size: 1.1rem;
+    }
+    .premium-card .relative {
+      width: 150px;
+      height: 120px;
+    }
+    .premium-card .flex.items-center.px-3 {
+      font-size: 1.15rem;
+      padding: 1rem 1.5rem;
+    }
+    .premium-card button.flex.items-center.justify-center {
+      font-size: 1.15rem;
+      padding: 1rem 1.5rem;
+    }
+    .premium-card button.flex.items-center.justify-center svg {
+      width: 1.3rem;
+      height: 1.3rem;
+    }
+    .ar-view-button {
+      min-width: 90px;
+      max-width: 120px;
+      min-height: 36px;
+      max-height: 48px;
+      font-size: 1.15em;
+      padding: 0.7rem 1.2rem;
+    }
+  }
+  
+  @media (max-width: 430px) and (min-height: 900px) {
+    /* Samsung Galaxy S20 Ultra and similar tall phones */
+    .premium-card {
+      min-height: calc((100vh - 170px) / 3);
+      max-height: calc((100vh - 170px) / 3);
+      padding: 26px;
+    }
+    .premium-card h3 {
+      font-size: 1.6rem;
+    }
+    .premium-card p.font-medium {
+      font-size: 1.3rem;
+    }
+    .premium-card p.text-xs {
+      font-size: 1.15rem;
+    }
+    .premium-card .relative {
+      width: 170px;
+      height: 135px;
+    }
+    .premium-card .flex.items-center.px-3 {
+      font-size: 1.25rem;
+      padding: 1.2rem 1.7rem;
+    }
+    .premium-card button.flex.items-center.justify-center {
+      font-size: 1.25rem;
+      padding: 1.2rem 1.7rem;
+    }
+    .premium-card button.flex.items-center.justify-center svg {
+      width: 1.4rem;
+      height: 1.4rem;
+    }
+    .ar-view-button {
+      min-width: 110px;
+      max-width: 140px;
+      min-height: 44px;
+      max-height: 56px;
+      font-size: 1.25em;
+      padding: 0.9rem 1.4rem;
     }
   }
 `}</style>

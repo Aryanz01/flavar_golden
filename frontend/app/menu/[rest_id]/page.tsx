@@ -350,7 +350,7 @@ export default function MenuPage({ params }: { params: { rest_id: string } }) {
   const categorizedDishes = groupDishesByCategory(foodItems);
 
   return (
-    <main className="min-h-screen pb-20 bg-[#121212]">
+    <main className="min-h-screen pb-20 bg-[#0a0a0a]">
       <Header onSearch={setSearchTerm} />
       <FilterChips activeFilter={filter} onFilterChange={setFilter} />
 

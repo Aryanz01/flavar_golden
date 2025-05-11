@@ -144,11 +144,11 @@ export default function Home() {
           <p className="text-gray-300 text-sm mb-3">
             {restaurant?.address || "123 Main Street, City, Country"}
           </p>
-          <div className="h-[150px] bg-[#222222] rounded-lg relative overflow-hidden">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Map className="w-8 h-8 opacity-50" style={{color: '#A09460'}} />
-            </div>
-          </div>
+          <img 
+            src="/images/map2.png" 
+            alt="Map location" 
+            className="w-full h-[200px] object-cover rounded-lg mb-3 border border-[#A09460]/30" 
+          />
         </div>
 
         <div>

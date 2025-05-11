@@ -103,3 +103,20 @@ Once deployed, monitor your application's performance:
 
 1. Use Vercel Analytics to track performance metrics
 2. Set up error monitoring with a service like Sentry 
+
+{
+  "version": 2,
+  "public": true,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
+} 

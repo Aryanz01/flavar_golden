@@ -2,6 +2,17 @@ import { useState, useEffect, useRef } from "react";
 import React from "react";
 import { X } from "lucide-react";
 
+// Add WebXR type definitions
+interface XRSystem {
+  isSessionSupported(mode: string): Promise<boolean>;
+}
+
+declare global {
+  interface Navigator {
+    xr?: XRSystem;
+  }
+}
+
 const VegIcon = () => (
   <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect x="0.5" y="0.5" width="11" height="11" rx="1.5" stroke="#117C3F" />
@@ -60,7 +71,33 @@ interface ARScreenProps {
 export function ARScreen({ isOpen, onClose, dish }: ARScreenProps) {
   const [isModelLoaded, setIsModelLoaded] = useState(false);
   const [isModelViewerReady, setIsModelViewerReady] = useState(false);
+  const [isARSupported, setIsARSupported] = useState(false);
   const modelViewerRef = useRef<ModelViewerElement | null>(null);
+
+  // Check for AR support when component mounts
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Check if WebXR is supported
+      const checkARSupport = async () => {
+        if ('xr' in navigator && navigator.xr && 'isSessionSupported' in navigator.xr) {
+          try {
+            const isSupported = await navigator.xr.isSessionSupported('immersive-ar');
+            setIsARSupported(isSupported);
+          } catch (error) {
+            console.error('Error checking AR support:', error);
+            setIsARSupported(false);
+          }
+        } else {
+          // Check for iOS Quick Look support
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+          const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+          setIsARSupported(isIOS && isSafari);
+        }
+      };
+      
+      checkARSupport();
+    }
+  }, []);
 
   // Load the model-viewer script when component mounts
   useEffect(() => {
@@ -95,12 +132,17 @@ export function ARScreen({ isOpen, onClose, dish }: ARScreenProps) {
   };
 
   const activateARMode = () => {
+    if (!isARSupported) {
+      alert('AR is not supported on this device or browser. Please try on a compatible mobile device.');
+      return;
+    }
+
     if (modelViewerRef.current) {
       try {
         modelViewerRef.current.activateAR();
       } catch (error) {
         console.error("Error activating AR:", error);
-        alert('AR may not be supported on this device or browser.');
+        alert('Error activating AR. Please try again or use a different device.');
       }
     } else {
       alert('AR viewer is not ready yet. Please try again in a moment.');
@@ -158,26 +200,19 @@ export function ARScreen({ isOpen, onClose, dish }: ARScreenProps) {
               poster-color="#000000"
               alt={`A 3D model of ${dish.name}`}
               onLoad={handleModelLoad}
-              className="w-full h-full"
+              className="w-full h-full hide-ar-button"
               style={{ backgroundColor: '#000000' }}
             ></model-viewer>
           )}
         </div>
 
         <div className="p-5 sm:p-6">
-          <div className="flex justify-between mb-5">
+          <div className="flex justify-end mb-5">
             <button 
               onClick={handleARView}
               className="luxury-button"
-              disabled={!isModelLoaded}
             >
               View in AR <ARIcon />
-            </button>
-            <button 
-              onClick={handle3DView}
-              className="luxury-button"
-            >
-              3D View
             </button>
           </div>
 
@@ -192,6 +227,12 @@ export function ARScreen({ isOpen, onClose, dish }: ARScreenProps) {
           </div>
         </div>
       </div>
+      <style jsx global>{`
+        model-viewer::part(default-ar-button),
+        model-viewer .container .ar-button {
+          display: none !important;
+        }
+      `}</style>
     </>
   );
 }
